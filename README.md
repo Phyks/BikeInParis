@@ -2,11 +2,13 @@ README for Velib app
 ====================
 (An english version is available below)
 
-Cette application a été developpée par Phyks (webmaster@phyks.me). Elle vous permet de localiser les vélibs et les emplacements de vélibs les plus proches de vous et de vous y guider. Elle est distribuée sous licence zlib/libpng.
+Cette application a été developpée par Phyks (webmaster@phyks.me). Elle vous permet de localiser les vélibs et les emplacements de vélibs les plus proches de vous et de vous y guider. Elle est distribuée sous licence (NO-ALCOHOL) BEER-WARE.
 
 Pour plus d'informations sur les licences des différentes parties (leaflet, images), se référer au fichier LICENSE.
 
 La fonction d'obtention des noms à partir des coordonnées GPS est fournie par Mapquest, les cartes sont fournies par OpenStreetMap et les itinéraires sont fournis par OSRM.
+
+Une démo est disponible à l'adresse http://velib.phyks.me . Si vous souhaitez utiliser régulièrement ce service, héberger une copie du script chez vous. En effet, il y a des limitations quant au nombre de requêtes par IP dans l'API REST de Vélib et je pourrais donc être obligé de mettre des limitations sur la copie du script disponible à l'adresse précédente pour garantir un fonctionnement optimal de la démo pour tous.
 
 Pour toute suggestion ou remarque, envoyer un e-mail à webmaster@phyks.me.
 
@@ -34,11 +36,13 @@ Notes :
 English version :
 =================
 
-This app has been developped by Phyks (webmaster@phyks.me). It allows you to locate the nearest velibs (parisian public bicycle sharing service) and the nearest velibs station. It is released under zlib/libpng license.
+This app has been developped by Phyks (webmaster@phyks.me). It allows you to locate the nearest velibs (parisian public bicycle sharing service) and the nearest velibs station. It is released under a (NO-ALCOHOL) BEER-WARE license.
 
 For more information about the licenses of the diverse libraries and images (leaflet ...), please refer to the LICENSE file.
 
 The reverse geolocation system is provided by Mapquest, maps are provided by OpenStreetMap and routes are provided by OSRM.
+
+You can find a demo running at http://velib.phyks.me . Please, host your own if you want to use it intensively. This is for demo purpose only and the Velib REST API put limitations on the requests you send (less than X requests per hour). Limitations on this address may appear if it's used too intensively.
 
 For any suggestion or remark, please send me an e-mail at webmaster@phyks.me.
 
