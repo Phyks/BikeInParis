@@ -1,0 +1,116 @@
+body, html
+{
+	text-align: center;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+body h1:first-child
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+h1 a, h2 a
+{
+	text-decoration: none;
+	color: black;
+}
+
+table
+{
+	margin: auto;
+	vertical-align: middle;
+	border-collapse: collapse;
+}
+
+td
+{
+	padding: 10px 15px;
+}
+
+td
+{
+	border-bottom: 1px dotted black;
+}
+
+table tr:last-child>td
+{
+	border-bottom: none;
+}
+
+
+.left
+{
+	text-align: left;
+}
+
+.right
+{
+	text-align: right;
+}
+
+a
+{
+	text-decoration: none;
+}
+
+#position img
+{
+	vertical-align: middle;
+}
+
+#ou
+{
+	margin-left: 25px;
+	margin-right: 15px;
+}
+
+@media screen and (max-width: 327px) /* a little trick to be more beautiful on small screens */
+{
+	#ou
+	{
+		display: block;
+	}
+}
+
+#map
+{
+	width: 100%;
+	height: 75%;
+	margin-bottom: 15px;
+}
+
+#map_p
+{
+	margin: 0;
+	margin-bottom: 10px;
+}
+
+#map_p img
+{
+	vertical-align: middle;
+}
+
+#position h2
+{
+	font-size: 1em;
+	text-decoration: underline;
+	margin: 0;
+}
+
+#position p
+{
+	margin-bottom: 0;
+}
+
+#thanks, #suggestions
+{
+	font-size: 0.7em;
+}
+
+#thanks img
+{
+	height: 1em;
+}
