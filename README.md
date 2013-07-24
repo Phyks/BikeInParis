@@ -32,6 +32,7 @@ Notes :
 ====================================================================================
 ====================================================================================
 English version :
+=================
 
 This app has been developped by Phyks (webmaster@phyks.me). It allows you to locate the nearest velibs (parisian public bicycle sharing service) and the nearest velibs station. It is released under zlib/libpng license.
 
