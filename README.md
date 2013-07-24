@@ -1,5 +1,5 @@
 README for Velib app
-====================================================================================
+====================
 (An english version is available below)
 
 Cette application a été developpée par Phyks (webmaster@phyks.me). Elle vous permet de localiser les vélibs et les emplacements de vélibs les plus proches de vous et de vous y guider. Elle est distribuée sous licence zlib/libpng.
@@ -18,9 +18,9 @@ Installation sur votre serveur :
 * L'application mettra automatiquement à jour la liste des stations au premier démarrage.
 
 * Pour mettre à jour automatiquement la liste des stations, vous pouvez utiliser une tâche cron comme suit :
-sudo crontab -e
+<code>sudo crontab -e</code>
 puis insérer la ligne
-* * * * * wget -q -O adresse_de_base_de_velib/index.php?update=1&code=code_synchro #Commande de mise a jour des stations de velib
+<code>* * * * * wget -q -O adresse_de_base_de_velib/index.php?update=1&code=code_synchro #Commande de mise a jour des stations de velib</code>
 
 en remplaçant code_synchro par votre code de synchronisation et en définissant * conformément à la fréquence de mises à jour souhaitée.
 
@@ -29,7 +29,6 @@ Notes :
 * Si vous avez perdu votre code de synchronisation, il suffit de supprimer le fichier data/data pour le réinitialiser (il faudra alors refaire une synchronisation des stations à la visite suivante).
 * Bien que cette application ait été optimisée, notamment au niveau du nombre de requêtes vers des services distants, elle a été créée dans l'optique de répondre à mon besoin et peut supporter difficilement une charge importante.
 
-====================================================================================
 ====================================================================================
 ====================================================================================
 English version :
@@ -43,16 +42,16 @@ The reverse geolocation system is provided by Mapquest, maps are provided by Ope
 For any suggestion or remark, please send me an e-mail at webmaster@phyks.me.
 
 Installation on your own server :
-================================
+=================================
 * Decompress the archive file in a folder accessible to your web server.
 * Ensure that your web server can write in the "data" directory.
 * Edit the configuration in the js.js file (OSM tiles provider, reverse geolocation provider and email).
 * The application will automatically update the stations list at first run.
 
 * To automatically update the stations list, you can use a cron task as following :
-sudo crontab -e
+<code>sudo crontab -e</code>
 then, add a line
-* * * * * wget -q -O adresse_de_base_de_velib/index.php?update=1&code=code_synchro #Update velib stations
+<code>* * * * * wget -q -O adresse_de_base_de_velib/index.php?update=1&code=code_synchro #Update velib stations</code>
 
 Don't forget to replace code_synchro by your synchronisation code and define * according to the update frequency you want.
 
