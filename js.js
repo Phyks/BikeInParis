@@ -437,14 +437,38 @@ window.onload = function() {
 							{
 								var json = JSON.parse(xhr.responseText); //Parse the response
 
-								latitude = json[0].lat;
-								longitude = json[0].lon;
+								if(json.length == 0)
+								{
+									var params_url_wo_position = '';
+									
+									for(GET in params)  //Define hidden input to keep params
+									{
+										if(GET != '' && GET != "position")
+										{
+											if(params_url_wo_position != '')
+												params_url_wo_position += '&';
+			
+											params_url_wo_position += GET+'='+params[GET];
+										}
+									}
 
-								if(latitude == 0 && longitude == 0)
-									document.getElementById("position").innerHTML = "<p>Une erreur a été rencontrée. Veuillez réessayer.</p>";
+									document.getElementById("position").innerHTML = "<p>Aucune correspondance n'a été trouvée. <a href='index.php?"+params_url_wo_position+"'>Revenir en arrière</a></p>";
+								}
 								else
-									getBikes(latitude, longitude);
+								{
+									latitude = json[0].lat;
+									longitude = json[0].lon;
+
+									if(latitude == 0 && longitude == 0)
+										document.getElementById("position").innerHTML = "<p>Une erreur a été rencontrée. Veuillez réessayer.</p>";
+									else
+										getBikes(latitude, longitude);
+								}
 							}
+						}
+						else
+						{
+							document.getElementById("position").innerHTML = "<p>Chargement en cours...</p>";
 						}
 					}
 				}
