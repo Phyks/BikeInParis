@@ -89,6 +89,8 @@ window.onload = function() {
 			}
 		}
 	}
+
+	params_url = encodeURI(params_url);
 	
 	if(available || free || station)
 	{
@@ -459,11 +461,11 @@ window.onload = function() {
 			{
 				if(GET != '' && GET != "position")
 				{
-					input_params += "<input type='hidden' name='"+GET+"' value='"+params[GET]+"'/>";
+					input_params += "<input type='hidden' name='"+escapeHTML(GET)+"' value='"+escapeHTML(params[GET])+"'/>";
 				}
 			}
 
-			document.getElementById("position").innerHTML = '<form action="index.php" method="get"><p><label for="position">Chercher autour de :</label><br/><input typ="text" name="position" id="position"/></p><p><input type="submit" value="Chercher"/></p>'+escapeHTML(input_params)+'</form>';
+			document.getElementById("position").innerHTML = '<form action="index.php" method="get"><p><label for="position">Chercher autour de :</label><br/><input typ="text" name="position" id="position"/></p><p><input type="submit" value="Chercher"/></p>'+input_params+'</form>';
 		}
 	}
 	else //If we didn't choose what to do, display the choices
