@@ -22,13 +22,14 @@ For any suggestion or remark, please send me an e-mail at phyks@phyks.me.
 * To automatically update the stations list, you can use a cron task as following :
 <code>sudo crontab -e</code>
 then, add a line
-<code>* * * * * wget -q -O adresse_de_base_de_velib/index.php?update=1&code=code_synchro #Update velib stations</code>
+<code>* * * * * wget -q -O address_of_BikeInParis_instance/index.php?update=1&code=synchro_code #Update velib stations</code>
 
 Don't forget to replace code_synchro by your synchronisation code and define * according to the update frequency you want.
 
 ## Notes
 
 * This app heavily uses Javascript and AJAX. As a result, a modern browser and JS support enabled are mandatory. For example, this app was successfully tested using Firefox on a desktop and Firefox Mobile for Android (on a SGS 3).
+* As velib is a french (parisian) service, all texts are written in French language but they shouldbe quite easily understandable.
 * If you have lost your synchronisation code, just delete the file data/data to reset it. You'll then have to make a full update at the next visit.
 * The update of the list of stations must be done manually (via a crontask for example). When using the script, the number of available velibs for each stationn is automatically retrieved, and stored in cache for some time to reduce the load toward the REST API.
 * Although I tried to optimize this application, it was created to answer my own need and may not be suited for a large scale website with a great load. Please report any problem and we'll see.
@@ -57,13 +58,14 @@ Pour toute suggestion ou remarque, envoyer un e-mail à phyks@phyks.me.
 * Pour mettre à jour automatiquement la liste des stations, vous pouvez utiliser une tâche cron comme suit :
 <code>sudo crontab -e</code>
 puis insérer la ligne
-<code>* * * * * wget -q -O adresse_de_base_de_velib/index.php?update=1&code=code_synchro #Commande de mise a jour des stations de velib</code>
+<code>* * * * * wget -q -O adresse_de_base_de_BikeInParis/index.php?update=1&code=code_synchro #Commande de mise a jour des stations de velib</code>
 
 en remplaçant code_synchro par votre code de synchronisation et en définissant * conformément à la fréquence de mises à jour souhaitée.
 
 Notes :
 =======
 * Cette app utilise beaucoup Javascript et AJAX. Ainsi, un navigateur moderne, avec Javascript activé sont un pré-requis pour en profiter. Par exemple, le script a été testé avec succès avec Firefox pour desktop et avec Firefox Mobile (pour Android, sur un SGS 3).
+* Comme velib est un service français à Paris, l'intégralité des messages d'erreur et des textes sont en français.
 * Si vous avez perdu votre code de synchronisation, il suffit de supprimer le fichier data/data pour le réinitialiser (il faudra alors refaire une synchronisation des stations à la visite suivante).
 * La mise à jour des stations doit être faite manuellement (via une crontask par exemple). En revanche, la mise à jour du nombre de vélos et d'emplacements disponibles pour chaque station est mis à jour à chaque requête vers les stations en question et reste en cache pendant un certain temps pour réduire la charge sur l'API REST.
 * Bien que cette application ait été optimisée, notamment au niveau du nombre de requêtes vers des services distants, elle a été créée dans l'optique de répondre à mon besoin et peut supporter difficilement une charge importante. Merci de me rapporter les problèmes que vous pourriez éventuellement rencontrer.
