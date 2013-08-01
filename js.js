@@ -457,7 +457,7 @@ window.onload = function() {
 
 			for(GET in params)  //Define hidden input to keep params
 			{
-				if(GET != '')
+				if(GET != '' && GET != "position")
 				{
 					input_params += "<input type='hidden' name='"+GET+"' value='"+params[GET]+"'/>";
 				}

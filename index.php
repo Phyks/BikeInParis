@@ -103,7 +103,8 @@
 				<?php
 					foreach($_GET as $GET=>$param)
 					{
-						echo '<input type="hidden" name="'.htmlspecialchars($GET).'" value="'.htmlspecialchars($param).'"/>';
+						if($GET != 'position')
+							echo '<input type="hidden" name="'.htmlspecialchars($GET).'" value="'.htmlspecialchars($param).'"/>';
 					}
 				?>
 			</form>
