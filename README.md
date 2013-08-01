@@ -1,5 +1,5 @@
-BikeInParis README file
-=======================
+README for Velib app
+====================
 (An english version is available below)
 
 Cette application a été developpée par Phyks (webmaster@phyks.me). Elle vous permet de localiser les vélibs et les emplacements de vélibs les plus proches de vous et de vous y guider. Elle est distribuée sous licence (NO-ALCOHOL) BEER-WARE.
