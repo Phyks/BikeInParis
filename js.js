@@ -2,11 +2,23 @@
 var tiles_provider = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 var reverse_geolocation_provider = "http://open.mapquestapi.com/nominatim/v1/reverse.php";
 var directions_provider = "http://router.project-osrm.org/viaroute";
+var lat_long_provider = "http://open.mapquestapi.com/nominatim/v1/search.php"
 var email = "webmaster@phyks.me"; //Mettre votre adresse e-mail ici si vous utilisez Nominatim (cf Usage Policy de Nominatim)
 
 /* Script : */
 
 window.onload = function() {
+	function escapeHTML(unsafe)
+	{
+		return unsafe
+			.replace(/&/g, "&amp;")
+			.replace(/</g, "&lt;")
+			.replace(/>/g, "&gt;")
+			.replace(/"/g, "&quot;")
+			.replace(/'/g, "&#039;");
+	}
+
+
 	function params() //Get all the parameters in the URL
 	{	
 		var t = location.search.substring(1).split('&');
@@ -14,7 +26,7 @@ window.onload = function() {
 	
 		for (var i=0; i<t.length; i++)
 		{
-			var x = t[ i ].split('=');
+			var x = t[i].split('=');
 			params[x[0]] = x[1];
 		}
 		return params;
@@ -29,51 +41,69 @@ window.onload = function() {
 	var available = false;
 	var update = false;
 	var refresh = false;
-	
+	var ignore_position = false;
+	var position = '';
+
 	for(GET in params) //Define boolean to handle the different cases next
 	{
-		if(params_url != '')
-			params_url += '&';
-		
-		params_url += GET+'='+params[GET];
-		
-		switch(GET)
+		if(GET != '')
 		{
-			case 'map':
-			map_get = true;
-			break;
+			if(params_url != '')
+				params_url += '&';
 			
-			case 'available':
-			available = true;
-			break;
+			params_url += GET+'='+params[GET];
 			
-			case 'free':
-			free = true;
-			break;
-			
-			case 'station':
-			station = true;
-			break;
-			
-			case 'update':
-			update = true;
-			break;
-			
-			case 'refresh':
-			refresh = true;
-			break;
+			switch(GET)
+			{
+				case 'map':
+				map_get = true;
+				break;
+				
+				case 'available':
+				available = true;
+				break;
+				
+				case 'free':
+				free = true;
+				break;
+				
+				case 'station':
+				station = true;
+				break;
+				
+				case 'update':
+				update = true;
+				break;
+				
+				case 'refresh':
+				refresh = true;
+				break;
+
+				case 'ignorePosition':
+				ignore_position = true;
+				break;
+
+				case 'position':
+				position = params[GET];
+				break;
+			}
 		}
 	}
 	
 	if(available || free || station)
 	{
-		if(update == false && navigator.geolocation) //We don't want to update and the navigator as geolocation capabilities
+		if(update == false && (navigator.geolocation || position != '')) //We don't want to update and the navigator as geolocation capabilities or we specified a position
 		{
 			function successFunction(position)
 			{
 				var latitude = position.coords.latitude; //Get the current position
 				var longitude = position.coords.longitude;
-				
+
+				getBikes(latitude, longitude);
+			}
+
+			function getBikes(latitude, longitude)
+			{
 				var xhr; //Define xhr variables
 				try 
 				{  
@@ -261,7 +291,7 @@ window.onload = function() {
 	
 					xhr.open("POST", "ajax.php",  true); //xhr handle the data about stations
 					xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-					xhr.send("latitude=" + latitude +  "&longitude=" + longitude + "&" + params_url + "&email=" + email + "&directions_provider="+  encodeURI(directions_provider) +"&reverse_geolocation_provider="+ encodeURI(reverse_geolocation_provider));
+					xhr.send("latitude=" + latitude +  "&longitude=" + longitude + "&" + params_url + "&email=" + email + "&directions_provider="+ encodeURI(directions_provider) +"&reverse_geolocation_provider="+ encodeURI(reverse_geolocation_provider));
 				}
 				
 				if(map_get == true || station) //If we need a map
@@ -355,18 +385,89 @@ window.onload = function() {
 				}
 			}
 
-			if(refresh) //If refresh, we want to force a new position (non cached)
-				navigator.geolocation.getCurrentPosition(successFunction, errorFunction, {enableHighAccuracy:true,  maximumAge:0, timeout:2000});
-			else
-				navigator.geolocation.getCurrentPosition(successFunction, errorFunction, {enableHighAccuracy:true,  maximumAge:60000, timeout:2000}); //Else, we are ok with 60 seconds old position
+			if(position == '' && !ignore_position) 
+			{
+				if(refresh) //If refresh, we want to force a new position (non cached)
+					navigator.geolocation.getCurrentPosition(successFunction, errorFunction, {enableHighAccuracy:true,  maximumAge:0, timeout:2000});
+				else
+					navigator.geolocation.getCurrentPosition(successFunction, errorFunction, {enableHighAccuracy:true,  maximumAge:60000, timeout:2000}); //Else, we are ok with 60 seconds old position
+			}
+			else if(position != '')
+			{
+				var latitude = 0;
+				var longitude = 0;
+
+				var xhr; //Define xhr variables
+				try 
+				{  
+					xhr = new XMLHttpRequest();
+				}
+				catch (e)
+				{
+					try 
+					{   
+						xhr = new ActiveXObject('Msxml2.XMLHTTP');
+					}
+					catch (e2)
+					{
+						try 
+						{  
+							xhr = new ActiveXObject('Microsoft.XMLHTTP');
+						}
+						catch (e3) 
+						{  
+							xhr = false;
+						}
+					}
+				}
+
+				if(xhr == false)
+				{
+					document.getElementById("position").innerHTML = "<p>Une erreur a été rencontrée. Veuillez réessayer.</p>";
+				}
+				else
+				{
+					xhr.onreadystatechange  = function()
+					{
+						if(xhr.readyState  == 4)
+						{
+							if(xhr.status  == 200)
+							{
+								var json = JSON.parse(xhr.responseText); //Parse the response
+
+								latitude = json[0].lat;
+								longitude = json[0].lon;
+
+								if(latitude == 0 && longitude == 0)
+									document.getElementById("position").innerHTML = "<p>Une erreur a été rencontrée. Veuillez réessayer.</p>";
+								else
+									getBikes(latitude, longitude);
+							}
+						}
+					}
+				}
+				
+				xhr.open("GET", lat_long_provider+"?format=json&q="+encodeURI(position+", Paris, France"),  true); //xhr handle the data about stations
+				xhr.send();
+			}
 		}
 		else
 		{
-			document.getElementById("position").innerHTML = "<p>Votre navigateur doit prendre en charge la géolocalisation pour que ce site puisse fonctionner correctement.</p>";
+			var input_params = '';
+
+			for(GET in params)  //Define hidden input to keep params
+			{
+				if(GET != '')
+				{
+					input_params += "<input type='hidden' name='"+GET+"' value='"+params[GET]+"'/>";
+				}
+			}
+
+			document.getElementById("position").innerHTML = '<form action="index.php" method="get"><p><label for="position">Chercher autour de :</label><br/><input typ="text" name="position" id="position"/></p><p><input type="submit" value="Chercher"/></p>'+escapeHTML(input_params)+'</form>';
 		}
 	}
 	else //If we didn't choose what to do, display the choices
 	{
-		document.getElementById("position").innerHTML = "<p><a href='?available=1'><img src='images/velo.png' alt='Retirer un vélo'/></a><span id='ou'> ou </span><a href='?free=1'><img src='images/parking.png' alt='Rendre un vélo'/></a>";
+		document.getElementById("position").innerHTML = "<p><a href='?available=1&"+params_url+"'><img src='images/velo.png' alt='Retirer un vélo'/></a><span id='ou'> ou </span><a href='?free=1&"+params_url+"'><img src='images/parking.png' alt='Rendre un vélo'/></a></p><p><a href='?ignorePosition=1&"+params_url+"'>Ignorer la géolocalisation</a></p>";
 	}
 }

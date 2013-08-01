@@ -92,7 +92,21 @@
 			}
 		?>
 		<div id="position">
-			<p><strong>Votre navigateur doit prendre en charge la géolocalisation pour que ce site puisse fonctionner correctement.<br/>Your browser must have geolocation capabilities for this site to display.</strong></p>
+			<form action="" method="get">
+				<p>
+					<label for="position">Chercher autour de :</label><br/>
+					<input type="text" name="position" id="position"/>
+				</p>
+				<p>
+					<input type="submit" value="Chercher"/>
+				</p>
+				<?php
+					foreach($_GET as $GET=>$param)
+					{
+						echo '<input type="hidden" name="'.htmlspecialchars($GET).'" value="'.htmlspecialchars($param).'"/>';
+					}
+				?>
+			</form>
 		</div>
 		<hr/>
 		<p id="thanks">Map is handled thanks to the <a href="http://leafletjs.com/">Leaflet</a> library, using © <a href="http://osm.org/copyright">OpenStreetMap</a> contributors tiles. Reverse geolocation (Nominatim) are provided by the <a href="http://www.mapquest.com/" alt="MapQuest icon">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png"> open API. Routes are provided by <a href='http://project-osrm.org/'>the OSRM project</a> (OSRM is a free and open source program under GNU Affero GPL).</p>
